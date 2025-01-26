@@ -1,12 +1,12 @@
+import { classNames } from 'shared/lib/classNames/classNames';
 import { ButtonHTMLAttributes, FC } from 'react';
-import { classNames } from 'shared/lib/classNames/classnames';
 import cls from './Button.module.scss';
 
 export enum ThemeButton {
     CLEAR = 'clear',
 }
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
     className?: string;
     theme?: ThemeButton;
 }
@@ -22,7 +22,6 @@ export const Button: FC<ButtonProps> = (props) => {
     return (
         <button
             type="button"
-            // eslint-disable-next-line max-len
             className={classNames(cls.Button, { [cls[theme]]: true }, [className])}
             {...otherProps}
         >

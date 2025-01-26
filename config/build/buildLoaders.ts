@@ -1,5 +1,5 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { BuildOptions } from './types/config';
 
 export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
@@ -16,7 +16,8 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
             options: {
                 presets: ['@babel/preset-env'],
                 plugins: [
-                    ['i18next-extract',
+                    [
+                        'i18next-extract',
                         {
                             locales: ['ru', 'en'],
                             keyAsDefaultValue: true,
@@ -25,12 +26,6 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
                 ],
             },
         },
-    };
-
-    const typescriptLoader = {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
     };
 
     const cssLoader = {
@@ -52,8 +47,15 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
         ],
     };
 
+    // Если не используем тайпскрипт - нужен babel-loader
+    const typescriptLoader = {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+    };
+
     const fileLoader = {
-        test: /\.(png|jpe?g|gif|woff)$/i,
+        test: /\.(png|jpe?g|gif|woff2|woff)$/i,
         use: [
             {
                 loader: 'file-loader',
@@ -62,10 +64,10 @@ export function buildLoaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
     };
 
     return [
+        fileLoader,
+        svgLoader,
         babelLoader,
         typescriptLoader,
         cssLoader,
-        svgLoader,
-        fileLoader,
     ];
 }
